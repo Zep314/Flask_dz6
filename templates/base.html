@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/favicon.ico') }}">
+    <title>
+        {% block title %}
+        Мой сайт
+        {% endblock %}
+    </title>
+</head>
+<body class="bg-light">
+<div class="container">
+<div class="py-5 text-center">
+    <header>
+        {% block header %}
+        Главная страница
+        {% endblock %}
+    </header>
+    <main>
+        {% block content %}
+        Страница не заполнена
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="alert-dark">
+            Все права защищены &copy;
+        </div>
+    </footer>
+</div>
+</div>
+</body>
+<script src="{{ url_for('static', path='/js/bootstrap.bundle.min.js') }}"></script>
+</html>
