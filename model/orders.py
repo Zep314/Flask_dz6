@@ -4,7 +4,6 @@
 import sqlalchemy
 from pydantic import BaseModel, Field
 from model.metadata import metadata
-from sqlalchemy.orm import relationship
 
 
 orders = sqlalchemy.Table(
@@ -12,9 +11,7 @@ orders = sqlalchemy.Table(
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("user_id", sqlalchemy.ForeignKey("users.id")),
-#    sqlalchemy.Column("user", relationship("Users", back_populates="orders")),
     sqlalchemy.Column("product_id", sqlalchemy.ForeignKey("products.id")),
-#    sqlalchemy.Column("product", relationship("Products", back_populates="orders")),
     sqlalchemy.Column("order_date", sqlalchemy.String(30)),
     sqlalchemy.Column("order_status", sqlalchemy.String(32)),
     # Почему то эта конструкция не работает  - default - не работает

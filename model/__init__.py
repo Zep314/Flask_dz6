@@ -11,6 +11,6 @@ from model.orders import orders, Order, OrderIn
 # Эти классы, переменные и функции будем "экспортировать" для внешней работы
 __all__ = ['metadata', 'database', 'logger', 'DATABASE_URL',
            'users', 'User', 'UserIn',
-           'products','Product','ProductIn',
+           'products', 'Product', 'ProductIn',
            'orders', 'Order', 'OrderIn',
            ]

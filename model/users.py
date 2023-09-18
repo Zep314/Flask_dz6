@@ -4,7 +4,6 @@
 import sqlalchemy
 from pydantic import BaseModel, Field
 from model.metadata import metadata
-from sqlalchemy.orm import relationship
 
 users = sqlalchemy.Table(
     "users",
@@ -17,7 +16,6 @@ users = sqlalchemy.Table(
     # Почему то эта конструкция не работает  - default - не работает
     # sqlalchemy.Column("created_at", sqlalchemy.DateTime(), default=datetime.utcnow), #
     sqlalchemy.Column("created_at", sqlalchemy.String(30)),
-#    orders = relationship("Order", back_populates="users"),
 )
 
 

@@ -31,10 +31,10 @@ async def update_order(order_id: int, new_order: md.OrderIn):
     :return:
     """
     query = md.orders.update().where(md.orders.c.id ==
-                                     order_id).values(**new_order.dict())
+                                     order_id).values(**new_order.model_dump())
     await md.database.execute(query)
     md.logger.info('Отработал PUT запрос для таблицы orders (изменение данных) для order_id = {order_id}.')
-    return {**new_order.dict(), "id": order_id}
+    return {**new_order.model_dump(), "id": order_id}
 
 
 async def delete_order(order_id: int):

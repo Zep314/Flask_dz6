@@ -31,10 +31,10 @@ async def update_user(user_id: int, new_user: md.UserIn):
     :return:
     """
     query = md.users.update().where(md.users.c.id ==
-                                    user_id).values(**new_user.dict())
+                                    user_id).values(**new_user.model_dump())
     await md.database.execute(query)
     md.logger.info('Отработал PUT запрос для таблицы users (изменение данных) для user_id = {user_id}.')
-    return {**new_user.dict(), "id": user_id}
+    return {**new_user.model_dump(), "id": user_id}
 
 
 async def delete_user(user_id: int):
@@ -57,4 +57,3 @@ async def read_users():
     query = md.users.select()
     md.logger.info(f'Отработал GET запрос (users). Вернул всю таблицу.')
     return await md.database.fetch_all(query)
-

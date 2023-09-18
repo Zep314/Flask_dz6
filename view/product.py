@@ -30,10 +30,10 @@ async def update_product(product_id: int, new_product: md.ProductIn):
     :return:
     """
     query = md.products.update().where(md.products.c.id ==
-                                       product_id).values(**new_product.dict())
+                                       product_id).values(**new_product.model_dump())
     await md.database.execute(query)
     md.logger.info('Отработал PUT запрос для таблицы products (изменение данных) для product_id = {product_id}.')
-    return {**new_product.dict(), "id": product_id}
+    return {**new_product.model_dump(), "id": product_id}
 
 
 async def delete_product(product_id: int):

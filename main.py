@@ -1,14 +1,10 @@
-import logging
 import sqlalchemy
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse, RedirectResponse
 import model as md
 import view
-from datetime import datetime
 from typing import List
-import databases
 
 
 app = FastAPI()
@@ -17,6 +13,7 @@ templates = Jinja2Templates(directory="templates")
 
 engine = sqlalchemy.create_engine(md.DATABASE_URL)
 md.metadata.create_all(engine)
+
 
 @app.on_event("startup")
 async def startup():
