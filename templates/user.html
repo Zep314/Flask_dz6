@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Добавить нового пользователя
+{% endblock %}
+
+{% block header %}
+<h1>
+Добавить нового пользователя
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class="text-body text-justify">
+    <hr class="mb-4">
+    <h2>
+       Добавить нового пользователя:
+    </h2>
+    <div class="text-monospace">
+    {% if user.id == 0 %}
+        <form method="POST" action="/web/users">
+    {% else %}
+        <form method="POST" action="/web/user/update">
+    {% endif %}
+            <input name="id" type="hidden" value="{{ user.id }}">
+            <p>
+                Имя пользователя:
+                <input name="first_name" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ user.first_name }}">
+            </p>
+            <p>
+                Фамилия пользователя:
+                <input name="last_name" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ user.last_name }}">
+            </p>
+             <p>
+                Email пользователя:
+                <input name="email" type="email" class="form-control" aria-describedby="basic-addon3" value="{{ user.email }}">
+            </p>
+            <p>
+                Пароль пользователя:
+                <input name="password" type="password" class="form-control" aria-describedby="basic-addon3" value="{{ user.password }}">
+            </p>
+            <p>
+                {% if user.id == 0 %}
+                <div hidden>
+                {% else %}
+                <div>
+                {% endif %}
+                Дата/время создания:
+                <input name="created_at" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ user.created_at }}">
+                </div>
+            </p>
+
+           <p>
+                <input type="submit" class="btn btn-primary" value="Записать">
+                <input type="reset" class="btn btn-primary" value="Очистить">
+            </p>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

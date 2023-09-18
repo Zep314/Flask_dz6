@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Просмотр таблицы пользователей
+{% endblock %}
+
+{% block header %}
+<h1>
+Просмотр таблицы пользователей
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class="text-body text-justify">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Password</th>
+                <th scope="col">Creation time</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <th scope="row">{{ user.id }}</th>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.created_at }}</td>
+                <td>
+                    <form method="POST" action="/web/user/show_update">
+                        <input name="user_id" type="hidden" value="{{ user.id }}">
+                        <input type="submit" class="btn btn-primary" value="Update">
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action="/web/user/delete">
+                        <input name="user_id" type="hidden" value="{{ user.id }}">
+                        <input type="submit" class="btn btn-primary" value="Delete">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <p>
+        <form action="/web/user">
+            <input type="submit" class="btn btn-primary" value="Создать нового пользователя">
+        </form>
+    </p>
+    <hr>
+    {% include 'menu.html' %}
+</div>
+
+{% endblock %}

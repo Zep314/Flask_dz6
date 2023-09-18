@@ -48,6 +48,7 @@ class User(BaseModel):
     email: str = Field(title='email', description='User\'s email', max_length=48)
     password: str = Field(title='password', description='User\'s password', max_length=32)
 #    created_at: datetime = Field(title='created_at', description='Date & time of creation', default=datetime.utcnow)
+    created_at: str = Field(title='created_at', description='Date & time of creation', max_length=30)
 
     def get_user(self):
         return {'id': self.id,

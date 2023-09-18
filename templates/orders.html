@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Просмотр таблицы заказов
+{% endblock %}
+
+{% block header %}
+<h1>
+Просмотр таблицы заказов
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class="text-body text-justify">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">user_id</th>
+                <th scope="col">product_id</th>
+                <th scope="col">order_date</th>
+                <th scope="col">order_status</th>
+                <th scope="col">Creation time</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <th scope="row">{{ order.id }}</th>
+                <td>{{ order.user_id }}</td>
+                <td>{{ order.product_id }}</td>
+                <td>{{ order.order_date }}</td>
+                <td>{{ order.order_status }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>
+                    <form method="POST" action="/web/order/show_update">
+                        <input name="order_id" type="hidden" value="{{ order.id }}">
+                        <input type="submit" class="btn btn-primary" value="Update">
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action="/web/order/delete">
+                        <input name="order_id" type="hidden" value="{{ order.id }}">
+                        <input type="submit" class="btn btn-primary" value="Delete">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <p>
+        <form action="/web/order">
+            <input type="submit" class="btn btn-primary" value="Создать новый заказ">
+        </form>
+    </p>
+    <hr>
+    {% include 'menu.html' %}
+</div>
+
+{% endblock %}

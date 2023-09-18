@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Добавить новый заказ
+{% endblock %}
+
+{% block header %}
+<h1>
+Добавить новый заказ
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class="text-body text-justify">
+    <hr class="mb-4">
+    <h2>
+       Добавить новый заказ:
+    </h2>
+    <div class="text-monospace">
+    {% if order.id == 0 %}
+        <form method="POST" action="/web/orders">
+    {% else %}
+        <form method="POST" action="/web/order/update">
+    {% endif %}
+            <input name="id" type="hidden" value="{{ order.id }}">
+            <p>
+                ИД пользователя:
+                <input name="user_id" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ order.user_id }}">
+            </p>
+            <p>
+                ИД товара:
+                <input name="product_id" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ order.product_id }}">
+            </p>
+             <p>
+                Дата заказа:
+                <input name="order_date" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ order.order_date }}">
+            </p>
+            <p>
+                Статус заказа:
+                <input name="order_status" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ order.order_status }}">
+            </p>
+            <p>
+                {% if order.id == 0 %}
+                <div hidden>
+                {% else %}
+                <div>
+                {% endif %}
+                Дата/время создания:
+                <input name="created_at" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ order.created_at }}">
+                </div>
+            </p>
+
+           <p>
+                <input type="submit" class="btn btn-primary" value="Записать">
+                <input type="reset" class="btn btn-primary" value="Очистить">
+            </p>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

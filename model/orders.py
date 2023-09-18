@@ -49,6 +49,7 @@ class Order(BaseModel):
     order_date: str = Field(title='order_date', description='Order\'s date', max_length=30)
     order_status: str = Field(title='order_status', description='Order\'s status', max_length=32)
 #    created_at: datetime = Field(title='created_at', description='Date & time of creation', default=datetime.utcnow)
+    created_at: str = Field(title='created_at', description='Date & time of creation', max_length=30)
 
     def get_order(self):
         return {'id': self.id,

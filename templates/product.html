@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Добавить новый товар
+{% endblock %}
+
+{% block header %}
+<h1>
+Добавить новый товар
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class="text-body text-justify">
+    <hr class="mb-4">
+    <h2>
+       Добавить новый товар:
+    </h2>
+    <div class="text-monospace">
+    {% if product.id == 0 %}
+        <form method="POST" action="/web/products">
+    {% else %}
+        <form method="POST" action="/web/product/update">
+    {% endif %}
+            <input name="id" type="hidden" value="{{ product.id }}">
+            <p>
+                Название товара:
+                <input name="name" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ product.name }}">
+            </p>
+            <p>
+                Описание товара:
+                <input name="description" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ product.description }}">
+            </p>
+             <p>
+                Цена товара:
+                <input name="cost" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ product.cost }}">
+            </p>
+            <p>
+                {% if product.id == 0 %}
+                <div hidden>
+                {% else %}
+                <div>
+                {% endif %}
+                Дата/время создания:
+                <input name="created_at" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ product.created_at }}">
+                </div>
+            </p>
+
+           <p>
+                <input type="submit" class="btn btn-primary" value="Записать">
+                <input type="reset" class="btn btn-primary" value="Очистить">
+            </p>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

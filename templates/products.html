@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Просмотр таблицы товаров
+{% endblock %}
+
+{% block header %}
+<h1>
+Просмотр таблицы товаров
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class="text-body text-justify">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Creation time</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <th scope="row">{{ product.id }}</th>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.cost }}</td>
+                <td>{{ product.created_at }}</td>
+                <td>
+                    <form method="POST" action="/web/product/show_update">
+                        <input name="product_id" type="hidden" value="{{ product.id }}">
+                        <input type="submit" class="btn btn-primary" value="Update">
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action="/web/product/delete">
+                        <input name="product_id" type="hidden" value="{{ product.id }}">
+                        <input type="submit" class="btn btn-primary" value="Delete">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <p>
+        <form action="/web/product">
+            <input type="submit" class="btn btn-primary" value="Создать новый продукт">
+        </form>
+    </p>
+    <hr>
+    {% include 'menu.html' %}
+</div>
+
+{% endblock %}
