@@ -24,12 +24,28 @@
     {% endif %}
             <input name="id" type="hidden" value="{{ order.id }}">
             <p>
-                ИД пользователя:
-                <input name="user_id" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ order.user_id }}">
+                Пользователь:
+                <select name="user_id" class="form-control">
+                    {% for user in users %}
+                        <option value="{{ user.id }}"
+                            {% if order.user_id == user.id %}
+                                selected
+                            {% endif %}
+                        >{{ user.first_name }} {{ user.last_name }}</option>
+                    {% endfor %}
+                </select>
             </p>
             <p>
-                ИД товара:
-                <input name="product_id" type="text" class="form-control" aria-describedby="basic-addon3" value="{{ order.product_id }}">
+                Товар:
+                <select name="product_id" class="form-control">
+                    {% for product in products %}
+                        <option value="{{ product.id }}"
+                            {% if order.product_id == product.id %}
+                                selected
+                            {% endif %}
+                        >{{ product.name }}</option>
+                    {% endfor %}
+                </select>
             </p>
              <p>
                 Дата заказа:

@@ -30,8 +30,20 @@
         {% for order in orders %}
             <tr>
                 <th scope="row">{{ order.id }}</th>
-                <td>{{ order.user_id }}</td>
-                <td>{{ order.product_id }}</td>
+                <td>
+                    {% for user in users %}
+                        {% if order.user_id == user.id%}
+                            {{ user.first_name }} {{ user.last_name }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for product in products %}
+                        {% if order.product_id == product.id%}
+                            {{ product.name }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
                 <td>{{ order.order_date }}</td>
                 <td>{{ order.order_status }}</td>
                 <td>{{ order.created_at }}</td>

@@ -7,7 +7,7 @@ import view
 from typing import List, Annotated
 from fastapi.responses import HTMLResponse, RedirectResponse
 import starlette.status as status
-from model.my_logger import logger
+
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -17,11 +17,13 @@ engine = sqlalchemy.create_engine(md.DATABASE_URL)
 md.metadata.create_all(engine)
 
 
+# Соединение с базой при запуске программы
 @app.on_event("startup")
 async def startup():
     await md.database.connect()
 
 
+# Отсоединение от базы при закрытии программы
 @app.on_event("shutdown")
 async def shutdown():
     await md.database.disconnect()
@@ -31,6 +33,8 @@ async def shutdown():
 async def root():
     return RedirectResponse("/web/users")
 
+
+# API методы для работы с таблицами
 
 @app.post("/users/")
 async def create_user(user: md.UserIn):
@@ -92,6 +96,8 @@ async def read_orders():
     return await view.read_orders()
 
 
+# WEB интерфейс для работы с таблицами
+
 @app.get("/web/users", response_class=HTMLResponse)
 async def web_read_users(request: Request):
     all_users = await read_users()
@@ -149,9 +155,6 @@ async def web_delete_user(user_id: Annotated[int, Form()]):
 async def web_create_user(request: Request):
     user = {'id': 0, 'first_name': '', 'last_name': '', 'email': '', 'password': '', 'created_at': ''}
     return templates.TemplateResponse("user.html", {"request": request, "user": user})
-
-
-# ================================
 
 
 @app.get("/web/products", response_class=HTMLResponse)
@@ -212,7 +215,10 @@ async def web_create_product(request: Request):
 @app.get("/web/orders", response_class=HTMLResponse)
 async def web_read_orders(request: Request):
     all_orders = await read_orders()
-    return templates.TemplateResponse("orders.html", {"request": request, "orders": all_orders})
+    all_users = await read_users()
+    all_products = await read_products()
+    return templates.TemplateResponse("orders.html", {"request": request, "orders": all_orders,
+                                                      "users": all_users, "products": all_products})
 
 
 @app.post("/web/orders", response_class=HTMLResponse)
@@ -237,7 +243,10 @@ async def web_show_update_order(order_id: Annotated[int, Form()], request: Reque
             break
     order = {'id': order1.id, 'user_id': order1.user_id, 'product_id': order1.product_id,
              'order_date': order1.order_date, 'order_status': order1.order_status, 'created_at': order1.created_at}
-    return templates.TemplateResponse("order.html", {"request": request, "order": order})
+    all_users = await read_users()
+    all_products = await read_products()
+    return templates.TemplateResponse("order.html", {"request": request, "order": order,
+                                                     "users": all_users, "products": all_products})
 
 
 @app.post("/web/order/update")
@@ -265,11 +274,15 @@ async def web_delete_order(order_id: Annotated[int, Form()]):
 @app.get("/web/order", response_class=HTMLResponse)
 async def web_create_order(request: Request):
     order = {'id': 0, 'user_id': 0, 'product_id': 0, 'order_date': '', 'order_status': '', 'created_at': ''}
-    return templates.TemplateResponse("order.html", {"request": request, "order": order})
+    all_users = await read_users()
+    all_products = await read_products()
+    return templates.TemplateResponse("order.html", {"request": request, "order": order,
+                                                     "users": all_users, "products": all_products})
 
 # Запуск:
 # uvicorn main:app --reload
 
+# Примеры запросов
 # curl -H "accept: application/json" -H "Content-Type: application/json" -X POST http://127.0.0.1:8000/users/ -d "{\"first_name\": \"Ivan\", \"last_name\": \"Ivanov\", \"email\": \"ivan@mail.ru\", \"password\": \"SuperPa$$w0rd\"}"
 # curl -H "accept: application/json" -H "Content-Type: application/json" -X PUT http://127.0.0.1:8000/users/2 -d "{\"first_name\": \"Mike\", \"last_name\": \"Jacson\", \"email\": \"mike@nasa.com\", \"password\": \"IWantToBeleve\"}"
 # curl -H "accept: application/json" -X DELETE http://127.0.0.1:8000/users/2
